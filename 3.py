@@ -37,8 +37,8 @@ def create_primes_list(x):
 
 
 x = 13195
-# primes_list = create_primes_list(1000000)
-print(primes_list)
+primes_list = create_primes_list(1000000)
+# print(primes_list)
 
 
 def get_factors(x, primes_list):
@@ -46,11 +46,31 @@ def get_factors(x, primes_list):
 		if x % num == 0:
 			return(num, int(x/num))
 
-def get_prime_factors(x):
+def get_prime_factors2(x):
 	primes = []
-	primes_list = create_primes_list(100000)
 	for num in primes_list:
-		
+		num1,num2 = get_factors(num, primes_list)
+		for num in [num1,num2]:
+			if is_prime(num):
+				primes.append(num)		
+			else:
+				pass
+
+def get_prime_factors(x):
+	factors = []
+	div = 2
+
+	while div * div <= x:
+		while x % div == 0:
+			factors.append(div)
+			x = x / div
+		div += 1
+
+	if x > 1:
+		factors.append(x)
+	return([int(item) for item in factors])
+
+print(get_prime_factors(600851475143 ))
 # print(get_factors(20))
 
 

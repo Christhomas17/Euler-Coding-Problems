@@ -1,50 +1,77 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Dec  8 08:49:11 2017
+import numpy as np
 
-@author: tsbmath
-"""
+size = 20
+end = [size, size]
 
-import itertools as it
+mat = np.matrix(np.zeros(shape = (size+1,size+1)))
+# print(mat)
 
-#combos = list(it.product(['d','r'], repeat = 40))
+spot = [1,0]
 
-maxSpot = 20
+def down(spot):
+	x,y = spot
+	x += 1
+	spot = [x,y]
+	return(spot)
 
-def combine_lists(list1, list2):
-    return([sum(x) for x in zip(list1,list2)])
+def right(spot):
+	x,y = spot
+	y += 1
+	spot = [x,y]
+	return(spot)
+
+def move(direction,mat,end):
+	spot = [0,0]
+	goodSpot = [100,100]
+	# print(direction)
+	for dir in direction:
+
+		if dir == 'd':
+			spot = down(spot)
+			x,y = spot
+			try:
+				mat[x,y] = 1
+			except:
+				return(False)
+		else:
+			spot = right(spot)
+			x,y = spot
+			try:
+				mat[x,y] = 1
+			except:
+				return(False)
+		goodSpot = spot
+
+	
+	if goodSpot == end:		
+		return(True)
+
+	else:
+		return(False)
 
 
-def check(index):
-    x,y = index
-    if x > maxSpot or y > maxSpot:
-        return(False)
-    else:
-        return(True)
+from itertools import product
 
-def try_path(x):
-    index = [0,0]
-    last = [maxSpot,maxSpot]
-    for item in x:
-        if item == 'd':
-            index = combine_lists(index,[0,1])
-        else:
-            index = combine_lists(index,[1,0])
-#        print(index)
-        if check(index):
-            if index == last:
-                return(True)
-            
-        else:
-            break
-    return(False)
-
+# directions = list(product('dr', repeat = size*2))
 
 
 count = 0
-for item in it.product(['d','r'], repeat = 40):
-    if try_path(item):
-        count += 1
-        print(item)
-#x = combos[3]
-#try_path(x)
+for direction in product('dr', repeat = size*2):
+	if move(direction,mat,end):
+		count += 1
+
+print(count)
+
+
+# print(directions)
+
+# print(spot)
+# print(down(spot))
+
+# x,y = spot
+# mat[x,y] = 10
+# print(mat)
+
+# x,y = down(spot)
+# print(x,y)
+# mat[x,y]
