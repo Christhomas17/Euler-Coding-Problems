@@ -17,24 +17,26 @@ def is_amicable(index):
 
 	partnerSum = sum(get_factors(indexSum))
 	# print(get_factors(index),index,indexSum,partnerSum)
-	if index == partnerSum :#and index != indexSum:
+	if index == partnerSum and index != indexSum:
 
 
 		amicables.append(indexSum)
 		amicables.append(partnerSum)
-		# print(indexSum,partnerSu)
+		print(indexSum,partnerSum)
 		# print(amicables)
 		# myList.pop(index)
 		# myList.pop(partnerSum)
 	# return(index == partnerSum)
 
+# print(is_amicable(6))
+
 amicables = []
 for i in myList:
 	is_amicable(i)
 
-print(amicables)
-print(len(amicables))
-print(set(amicables))
+# print(amicables)
+# print(len(amicables))
+# print(set(amicables))
 print(sum(set(amicables)))
 		
 # print(sum(amicables))

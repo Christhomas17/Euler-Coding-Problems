@@ -16,9 +16,13 @@ What is the sum of the numbers on the diagonals in a 1001 by 1001 spiral formed 
 '''
 
 import numpy as np
-its = 1000
+size = 1001
 
-df = np.matrix(np.zeros(shape = (its+1,its+1)))
+df = np.matrix(np.zeros(shape = (size,size)))
+# print(df)
+# x = [2,2]
+# df[x] = 100
+# print(df)
 
 def find_middle(x):
 	rows,cols = x.shape
@@ -28,62 +32,51 @@ def find_middle(x):
 
 middle = find_middle(df)
 
-x,y = middle
-start = middle
-df[x,y] = 1
 
-directions = [[0,1],[1,0],[0,-1],[-1,0]]
+df[middle] = 1
 
-def get_distance(list1,list2):
-	return(max([abs(x1 -x2) for (x1,x2) in zip(list1,list2)]))
 
-def sumLists(list1, list2):
-    return([sum(x) for x in zip(list1,list2)])
+maxDistance = int(size/2)
+
+
+directions = [(0,1),(1,0),(0,-1), (-1,0), (0,1)]
+
+def move(num1, num2):
+    return(tuple((sum(x) for x in zip(num1,num2))))
+
+def get_distance(spot):
+    return(max([abs(x1 - x2) for (x1,x2) in zip(spot,middle)]))
+
+def paint(df):
+    spot = middle
+    distance = 0
+    index = 2
+    while distance <= maxDistance:
+        distance += 1
+        for direction in directions:
+            newSpot = move(spot,direction)
+            try:
+                while get_distance(newSpot) <= distance:
+                    spot = newSpot
+                    df[spot] = index
+                    index += 1
+                    newSpot = move(spot,direction)
+                    # print(df)
+            except:
+                print('we out')
+                return(df)
+
+    print(df)
+
+x =paint(df)
+print(x)
+
+def sum_diags(df):
+    totSum = sum([int(df[i,i]) for i in range(size)])
+    totSum += sum([int(df[(size-1) - i,i]) for i in range(size)])
+    totSum -= int(df[middle])
+    print(totSum)
+
+sum_diags(x)
+
     
-#distance = 2
-
-
-def move(index,distance,df,count): 
-    maxRow,maxCol = df.shape
-    maxRow -= 1
-    maxCol -=1
-    for direction in directions:
-        while True:
-            tempIndex = sumLists(direction,index)
-#            print('temp',tempIndex,get_distance(tempIndex,start),distance)
-            
-            if get_distance(tempIndex,start) <= distance:
-                
-                x,y = tempIndex
-                count += 1
-                if df[x,y] == 0:
-                    df[x,y] = count
-                index = tempIndex
-                
-#                print(index)
-            else:                
-                break
-                
-#    print(df)
-    return(df, index,count)
-
-#create the matrix        
-index = start
-count = 1
-for it in range(1,900,1):
-#    print(it)
-#    it = 4
-    df,index,count = move(index,it,df,count)
-#    print(df)
-
-#def sum_diag(df):
-#    totSum = 0
-#    for i in range(its):
-#        print(i)
-#        totSum += df[i,i]
-#        totSum += df[its-i- 1,i]
-#    x,y = middle    
-#    totSum = totSum - df[x,y]
-#    return(totSum)
-#    
-#x = sum_diag(df)

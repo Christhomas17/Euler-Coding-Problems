@@ -13,7 +13,7 @@ What is the total of all the name scores in the file?
 import pandas as pd
 import numpy as np
 
-df = pd.read_table('22 - names.txt', header = None, sep = ',')
+df = pd.read_table('Names22.txt', header = None, sep = ',')
 df = df.transpose()
 df = df.dropna()
 df = df.sort_values(0)
@@ -45,5 +45,6 @@ df['Value'] = df[0].apply(get_value)
 df['Index'] = df.index + 1
 df['Total Value'] = df['Value'] * df['Index']
 totValue = df['Total Value'].sum()
+print(totValue)
 
 

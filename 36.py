@@ -42,4 +42,5 @@ for num in np.arange(1,1000000,1):
         nums.append(int(num))     
         
 x = sum(nums)
+print(x)
 
